@@ -1,0 +1,49 @@
+#define ldr A0 	 
+#define led 2	
+#define pir 4
+#define btn 3
+int sensorValue=0; 
+int pirValue=0;
+int btnValue;
+
+
+void setup() {
+  
+  //Módulo dos pinos
+pinMode(ldr, INPUT); //SINAL QUE ENTRA NO ARDUINO
+pinMode(led, OUTPUT); //SINAL QUE SAI DO ARDUINO PARA O LED
+pinMode(pir, INPUT);//SINAL QUE ENTRA NO ARDUINO  
+pinMode(btn, INPUT); //SINAL QUE ENTRA NO Arduino ao PRESSIONAR
+Serial.begin(9600); 
+
+}
+
+void loop() {  
+  sensorValue=analogRead(ldr); //LDR
+  
+  if(sensorValue<700){
+    digitalWrite(led, HIGH);
+  }else{
+      digitalWrite(led, LOW); 
+  }
+  
+  pirValue = digitalRead(pir); //PIR
+  
+  if(pirValue == 1){
+    digitalWrite(pir, HIGH);
+  }else{
+  	digitalWrite(pir, LOW);
+  }
+  
+  btnValue = digitalRead(btn); //BOTAO
+  if(btnValue == 1){
+    digitalWrite(btn, HIGH);
+  }else{
+    digitalWrite(btn, LOW);
+  }
+  
+  Serial.print("Valor Sensor LDR: ");
+  Serial.print(sensorValue);
+  Serial.println("");
+  delay(100);
+}
