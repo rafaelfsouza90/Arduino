@@ -49,7 +49,7 @@ void loop(){
           cliente.println("<HTML>");
           cliente.println("<BODY>");
           cliente.println("<head><meta http-equiv=""refresh"" content=""3""></head>");
-          cliente.println("<H1>MINICURSO_AUTOMAÇÃO</H1>");
+          cliente.println("<H1>UNICARIOCA_AUTOMAÇÃO</H1>");
           cliente.println("<hr />");
           cliente.println("<br />");
 //LEITURA DE DADOS//       
@@ -79,8 +79,8 @@ void loop(){
           cliente.println("<p>RELE_3 <a href=\"/r3_ligar\"><button>LIGA</button></a><a href=\"/r3_desligar\"><button>DESLIGA</button></a>");
           cliente.println("<p>RELE_4 <a href=\"/r4_ligar\"><button>LIGA</button></a><a href=\"/r4_desligar\"><button>DESLIGA</button></a>");
           
-          cliente.println ("<p><a href=""http://afmulti.com.br"">Visite nosso site!</a></p>"); 
-          cliente.println ("<p><a href=""http://facebook.com/afmultiautomacao""> fanpage do Facebook</a> </p>");
+          cliente.println ("<p><a href=""http://www.wix.com.br"">Visite nosso site!</a></p>"); 
+          cliente.println ("<p><a href=""http://facebook.com/rafaelfsouza90""> fanpage do Facebook</a> </p>");
           cliente.println("</BODY>");
           cliente.println("</HTML>");
            
