@@ -1,0 +1,131 @@
+
+//INCLUSÃO DE BIBLIOTECAS
+#include <Ethernet.h>
+***//CONFIGURAÇÃO DE ENDEREÇO MAC E IP//***
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+byte ip[] = { 192, 168, 0, 55 };
+
+// DEFINIÇÃO DO SERVIDOR NA PORTA 80//
+     
+EthernetServer servidor(80);
+
+//VARIAVEIS E CONSTANTES//
+String readString;
+
+const int rele_1 = 6;
+const int rele_2 = 7;
+const int rele_3 = 8;
+const int rele_4 = 9;
+  
+void setup(){
+//DEFINIÇÃO DAS SAIDAS//
+  pinMode (rele_1, OUTPUT);
+  pinMode (rele_2, OUTPUT);
+  pinMode (rele_3, OUTPUT);
+  pinMode (rele_4, OUTPUT);
+
+//INICIO DE SERVIDOR, E CONEXÃO COM A INTERNET//
+  Ethernet.begin(mac, ip);
+  servidor.begin();
+}
+  
+void loop(){
+  EthernetClient cliente = servidor.available();
+  if (cliente) {
+    while (cliente.connected()) {
+      if (cliente.available()) {
+        char c = cliente.read();
+  
+        if (readString.length() < 100) {
+          readString += c;             
+        }
+ 
+        if (c == '\n') {
+//CRIAÇÃO DE PAGINA WEB//       
+          cliente.println("HTTP/1.1 200 OK");
+          cliente.println("Content-Type: text/html");
+          cliente.println();
+           
+          cliente.println("<HTML>");
+          cliente.println("<BODY>");
+          cliente.println("<head><meta http-equiv=""refresh"" content=""3""></head>");
+          cliente.println("<H1>MINICURSO_AUTOMAÇÃO</H1>");
+          cliente.println("<hr />");
+          cliente.println("<br />");
+//LEITURA DE DADOS//       
+          cliente.print("<p>Leitura de dado A0: *");
+          int analog0 = analogRead(A0);
+          cliente.print(analog0);
+          cliente.print("*</p>");
+
+          cliente.print("<p>Leitura de dado A1: *");
+          int analog1 = analogRead(A1);
+          cliente.print(analog1);
+          cliente.print("*</p>");
+
+          cliente.print("<p>Leitura de dado A2: *");
+          int analog2 = analogRead(A2);
+          cliente.print(analog2);
+          cliente.print("*</p>");
+
+          cliente.print("<p>Leitura de dado A3: *");
+          int analog3 = analogRead(A3);
+          cliente.print(analog3);
+          cliente.print("*</p>");
+//CONTROLE DAS SAIDAS//
+         
+          cliente.println("<p>RELE_1 <a href=\"/r1_ligar\"><button>LIGA</button></a><a href=\"/r1_desligar\"><button>DESLIGA</button></a>");
+          cliente.println("<p>RELE_2 <a href=\"/r2_ligar\"><button>LIGA</button></a><a href=\"/r2_desligar\"><button>DESLIGA</button></a>");
+          cliente.println("<p>RELE_3 <a href=\"/r3_ligar\"><button>LIGA</button></a><a href=\"/r3_desligar\"><button>DESLIGA</button></a>");
+          cliente.println("<p>RELE_4 <a href=\"/r4_ligar\"><button>LIGA</button></a><a href=\"/r4_desligar\"><button>DESLIGA</button></a>");
+          
+          cliente.println ("<p><a href=""http://afmulti.com.br"">Visite nosso site!</a></p>"); 
+          cliente.println ("<p><a href=""http://facebook.com/afmultiautomacao""> fanpage do Facebook</a> </p>");
+          cliente.println("</BODY>");
+          cliente.println("</HTML>");
+           
+          delay(1);
+          cliente.stop();
+           
+          if(readString.indexOf("r1_ligar") > 0)
+             {
+           digitalWrite (rele_1, HIGH);
+             }
+          if(readString.indexOf("r1_desligar") > 0)
+            {
+           digitalWrite (rele_1, LOW);
+            }
+
+             if(readString.indexOf("r2_ligar") > 0)
+             {
+           digitalWrite (rele_2, HIGH);
+             }
+          if(readString.indexOf("r2_desligar") > 0)
+            {
+           digitalWrite (rele_2, LOW);
+            }
+
+             if(readString.indexOf("r3_ligar") > 0)
+             {
+           digitalWrite (rele_3, HIGH);
+             }
+          if(readString.indexOf("r3_desligar") > 0)
+            {
+           digitalWrite (rele_3, LOW);
+            }
+
+           if(readString.indexOf("r4_ligar") > 0)
+             {
+           digitalWrite (rele_4, HIGH);
+             }
+          if(readString.indexOf("r4_desligar") > 0)
+            {
+           digitalWrite (rele_4, LOW);
+            }
+                     
+          readString="";    
+        }
+      }
+    }
+  }
+}
