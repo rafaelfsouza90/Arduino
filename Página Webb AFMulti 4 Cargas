@@ -1,24 +1,24 @@
-
 //INCLUSÃO DE BIBLIOTECAS
-#include <Ethernet.h>
-***//CONFIGURAÇÃO DE ENDEREÇO MAC E IP//***
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-byte ip[] = { 192, 168, 0, 55 };
+#include <Ethernet.h> //Bibiblioteca inclusa no Arduino IDE
 
-// DEFINIÇÃO DO SERVIDOR NA PORTA 80//
-     
-EthernetServer servidor(80);
+***//CONFIGURAÇÃO DE ENDEREÇO MAC E IP//***
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; //Endereço mac do shield Ethernet
+byte ip[] = { 192, 168, 0, 55 }; //Endereço de IP disponívelde na rede
+
+// DEFINIÇÃO DO SERVIDOR NA PORTA 80//  
+EthernetServer servidor(80); //Servidor Web é inciado na porta 80.
 
 //VARIAVEIS E CONSTANTES//
-String readString;
+String readString; //Váriavel do tipo String utilizada para criar a página web do servidor dentro do Arduino
 
-const int rele_1 = 6;
-const int rele_2 = 7;
-const int rele_3 = 8;
-const int rele_4 = 9;
+//A criação das constantes facilita, pois ao invés de alterar o código é alterado apenas a constante.
+const int rele_1 = 6; //rele com constante 6
+const int rele_2 = 7; //rele com constante 7
+const int rele_3 = 8; //rele com constante 8
+const int rele_4 = 9; //rele com constante 9
   
 void setup(){
-//DEFINIÇÃO DAS SAIDAS//
+//DEFINIÇÃO DAS SAIDAS//    //Pinos 6,7,8,9 são definidos como saída
   pinMode (rele_1, OUTPUT);
   pinMode (rele_2, OUTPUT);
   pinMode (rele_3, OUTPUT);
@@ -30,7 +30,8 @@ void setup(){
 }
   
 void loop(){
-  EthernetClient cliente = servidor.available();
+  
+  EthernetClient cliente = servidor.available(); //Inicia o web server. O cliente(browser) recebe a informação e envia pelo método get na URL
   if (cliente) {
     while (cliente.connected()) {
       if (cliente.available()) {
@@ -48,52 +49,60 @@ void loop(){
            
           cliente.println("<HTML>");
           cliente.println("<BODY>");
-          cliente.println("<head><meta http-equiv=""refresh"" content=""3""></head>");
-          cliente.println("<H1>AUTOMA&Ccedil&AtildeO_CARIOCA</H1>");
+          cliente.println("<head><meta http-equiv=""refresh"" content=""3""></head>"); //Há cada 3 segundos a página sobre um refrest, ou seja, a página é atuzalida.
+          cliente.println("<H1>AUTOMA&Ccedil&AtildeO_CARIOCA</H1>");                            //Importante para atualizar os valores analógicos
           cliente.println("<hr />");
           cliente.println("<br />");
 //LEITURA DE DADOS//       
-          cliente.print("<p>Leitura de dado A0: *");
-          int analog0 = analogRead(A0);
-          cliente.print(analog0);
-          cliente.print("*</p>");
+          //SENSOR DE LUMINOSIDADE
+          cliente.print("<p>Leitura de dado A0: *"); //Print da leitura do dado na porta analógica A0. O * é fundamental na construção do aplicativo. Mais para frente é explicado o motivo.
+          int analog0 = analogRead(A0);    //Criação da variável do tipo inteira chamada analog0 e recebe os dados que chegam na porta analógica A0. Variando de 0 à 1.023
+          cliente.print(analog0);         // É dado um print e mostra os valores na tela.
+          cliente.print("*</p>");        // Fechamento do paragrafo e antes de encerrar o paragrafo e o colocado o *. Mais para frente é explicado o motivo de sua importancia.
 
+          //SENSOR DE PRESENÇA
           cliente.print("<p>Leitura de dado A1: *");
           int analog1 = analogRead(A1);
           cliente.print(analog1);
           cliente.print("*</p>");
 
+          //SENSOR DE FUMAÇA
           cliente.print("<p>Leitura de dado A2: *");
           int analog2 = analogRead(A2);
           cliente.print(analog2);
           cliente.print("*</p>");
 
+          //SENSOR DE TEMPERATURA
           cliente.print("<p>Leitura de dado A3: *");
           int analog3 = analogRead(A3);
           cliente.print(analog3);
           cliente.print("*</p>");
-//CONTROLE DAS SAIDAS//
-         
+
+          //CONTROLE DAS SAIDAS//
+          //Criação de quatro parágrafos. E na frente de cada um deles tem o botão liga e desliga. E o comando que se gera a saída na URL do browser,
+          //ou seja, quando clicar em liga ou desliga é criado um complemento no endereço da URL.
           cliente.println("<p>RELE_1 <a href=\"/r1_ligar\"><button>LIGA</button></a><a href=\"/r1_desligar\"><button>DESLIGA</button></a>");
           cliente.println("<p>RELE_2 <a href=\"/r2_ligar\"><button>LIGA</button></a><a href=\"/r2_desligar\"><button>DESLIGA</button></a>");
           cliente.println("<p>RELE_3 <a href=\"/r3_ligar\"><button>LIGA</button></a><a href=\"/r3_desligar\"><button>DESLIGA</button></a>");
           cliente.println("<p>RELE_4 <a href=\"/r4_ligar\"><button>LIGA</button></a><a href=\"/r4_desligar\"><button>DESLIGA</button></a>");
-          
-          cliente.println ("<p><a href=""http://www.wix.com.br"">Visite nosso site!</a></p>"); 
-          cliente.println ("<p><a href=""http://facebook.com/rafaelfsouza90""> fanpage do Facebook</a> </p>");
+
+          //É mostrado abaixo dos botões um convite para o site e a página no Facebook.
+          cliente.println ("<p><a href=""https://rafaelfsouza.wixsite.com/rafaelsouza"">Visite nosso site!</a></p>"); 
+          cliente.println ("<p><a href=""https://www.facebook.com/profile.php?id=100019228087194""> fanpage do Facebook</a> </p>");
           cliente.println("</BODY>");
-          cliente.println("</HTML>");
+          cliente.println("</HTML>"); //Encerramento da programação em HTML
            
           delay(1);
           cliente.stop();
+
            
-          if(readString.indexOf("r1_ligar") > 0)
+          if(readString.indexOf("r1_ligar") > 0) //É pego o complemento do endereço. Caso seja r1_ligar
              {
-           digitalWrite (rele_1, HIGH);
+           digitalWrite (rele_1, HIGH); //É enviado HIGH para o rele_1
              }
-          if(readString.indexOf("r1_desligar") > 0)
+          if(readString.indexOf("r1_desligar") > 0) //Caso seja r1_desligar é enviado o comando LOW para o rele_1
             {
-           digitalWrite (rele_1, LOW);
+           digitalWrite (rele_1, LOW);              //De acordo com que for completado o endereço. É tomada uma ação de ligar ou desligar uma saída
             }
 
              if(readString.indexOf("r2_ligar") > 0)
@@ -123,7 +132,7 @@ void loop(){
            digitalWrite (rele_4, LOW);
             }
                      
-          readString="";    
+          readString="";    //A String é zerada e começa novamente no próximo ciclo.
         }
       }
     }
