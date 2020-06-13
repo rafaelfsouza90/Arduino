@@ -49,7 +49,7 @@ void loop(){
           cliente.println("<HTML>");
           cliente.println("<BODY>");
           cliente.println("<head><meta http-equiv=""refresh"" content=""3""></head>");
-          cliente.println("<H1>UNICARIOCA_AUTOMAÇÃO</H1>");
+          cliente.println("<H1>AUTOMA&Ccedil&AtildeO_CARIOCA</H1>");
           cliente.println("<hr />");
           cliente.println("<br />");
 //LEITURA DE DADOS//       
