@@ -1,5 +1,5 @@
 //INCLUSÃO DE BIBLIOTECAS
-#include <Ethernet.h> //Bibiblioteca inclusa no Arduino IDE
+#include <Ethernet.h>  //Bibiblioteca inclusa no Arduino IDE
 
 ***//CONFIGURAÇÃO DE ENDEREÇO MAC E IP//***
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; //Endereço mac do shield Ethernet
