@@ -10,9 +10,9 @@ int btnValue=0;
 void setup() {
   
 //Módulo dos pinos
-pinMode(ldr, INPUT); //SINAL LUMINOSIDADE ENTRA NO ARDUINO
+pinMode(ldr, INPUT);    //SINAL LUMINOSIDADE ENTRA NO ARDUINO
 pinMode(lamp, OUTPUT); //SINAL QUE SAI DO ARDUINO PARA A LÂMPADA
-pinMode(pir, INPUT);//SINAL PRESENTA QUE ENTRA NO ARDUINO  
+pinMode(pir, INPUT);  //SINAL PRESENTA QUE ENTRA NO ARDUINO  
 pinMode(btn, INPUT); //SINAL BOTÃO QUE ENTRA NO ARDUINO
 Serial.begin(9600); 
 
