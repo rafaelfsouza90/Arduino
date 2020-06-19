@@ -1,4 +1,4 @@
-//INCLUSÃO DE BIBLIOTECAS
+ //INCLUSÃO DE BIBLIOTECAS
 #include <Ethernet.h>  //Bibiblioteca inclusa no Arduino IDE
 
 ***//CONFIGURAÇÃO DE ENDEREÇO MAC E IP//***
