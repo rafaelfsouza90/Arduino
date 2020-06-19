@@ -2,7 +2,6 @@
 #define led 2
 int vldr=0; //Variável global, pode ser usada tanto no setup quanto no loop
 
-
 void setup() {
   
   //Módulo dos pinos
