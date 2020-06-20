@@ -1,3 +1,8 @@
+ //Nome: Rafael Ferreira de Souza
+ //Data: 20/06/2020
+ //Email: rafaelfsouza1990@gmail.com
+ //Definição: Servidor Web no Arduino e controle residêncial.
+ 
  //INCLUSÃO DE BIBLIOTECAS
 #include <Ethernet.h>  //Bibiblioteca inclusa no Arduino IDE
 
